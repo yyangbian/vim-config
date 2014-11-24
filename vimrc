@@ -74,8 +74,9 @@ vnoremap > >gv " better indentation
 " wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
 "" set t_Co=256
 "" color wombat256mod
-" colorscheme wombat256mod
-colorscheme navajo-night
+colorscheme wombat256mod
+" colorscheme navajo-night
+" colorscheme xoria256
 
 " Enable syntax highlighting
 " You need to reload this file for the change to apply
@@ -335,3 +336,12 @@ inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
 " wget -O ~/.vim/ftplugin/python_editing.vim http://www.vim.org/scripts/download_script.php?src_id=5492
 set nofoldenable
 nnoremap <space> za
+
+
+" Command for eclim
+" Adds or updates the comments for the element under the cursor.
+:command JDC JavaDocComment
+" Import the class under the cursor.
+:command JI JavaImport
+" Import undefined types, remove unused imports, sort and format imports.
+:command JIO JavaImportOrganize

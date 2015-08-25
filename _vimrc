@@ -34,10 +34,21 @@ noremap <leader>n :nohl<CR>
 vnoremap <leader>n :nohl<CR>
 inoremap <leader>n :nohl<CR>
 
+" Similar to yy, this command copies a line without leading/trailing white
+" spaces
+nnoremap <Leader>yy ^yg_
+
 " Quicksave command
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
 "" noremap <C-Z> :update<CR>
 "" vnoremap <C-Z> <C-C>:update<CR>
 "" inoremap <C-Z> <C-O>:update<CR>
+
+" Press i to enter insert mode, and jj to exit
+inoremap jj <Esc>
 
 " Quick quit command
 "" noremap <Leader>e :quit<CR> " Quit current window
@@ -64,6 +75,9 @@ vnoremap <Leader>s :sort<CR>
 vnoremap < <gv " better indentation
 vnoremap > >gv " better indentation
 
+" remove trailing white space
+nnoremap <Leader>rtw :%s/\s\+$//e<CR>
+
 " Show whitespace
 " MUST be inserted BEFORE the colorscheme command
 " autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
@@ -74,13 +88,15 @@ vnoremap > >gv " better indentation
 " wget -O wombat256mod.vim http://www.vim.org/scripts/download_script.php?src_id=13400
 "" set t_Co=256
 "" color wombat256mod
-colorscheme wombat256mod
+"colorscheme wombat256mod
 " colorscheme navajo-night
-" colorscheme xoria256
+colorscheme xoria256
+"colorscheme hybrid
 
 " Enable syntax highlighting
 " You need to reload this file for the change to apply
 filetype off
+filetype plugin on
 filetype plugin indent on
 syntax on
 
@@ -107,6 +123,10 @@ set shiftwidth=4
 set shiftround
 set expandtab
 
+autocmd Filetype html setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+autocmd Filetype R setlocal ts=2 sts=2 sw=2
+
 " Make search case insensitive
 set hlsearch " highlight the search results
 set incsearch " show the next match while entering a search
@@ -123,11 +143,11 @@ set noswapfile
 " set backupdir=~/.vim/backup " where to put backup files
 " set directory=~/.vim/swp" where to put .swp files
 
-set laststatus=2 " always show the status line
+set listchars=tab:>-,trail:- " show tabs and trailing
 set lazyredraw " do not redraw while running macros
+set laststatus=2 " always show the status line
 set linespace=0 " don't insert any extra pixel lines betweens rows
 set list " we do what to show tabs, to ensure we get them out of my files
-set listchars=tab:>-,trail:- " show tabs and trailing
 set matchtime=5 " how many tenths of a second to blink matching brackets for
 set nostartofline " leave my cursor where it was
 set numberwidth=5 " We are good up to 99999 lines
@@ -139,7 +159,8 @@ set scrolloff=10 " Keep 10 lines (top/bottom) for scope
 set showcmd " show the command being typed
 set showmatch " show matching brackets
 set sidescrolloff=10 " Keep 5 lines at the size
-set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
+
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 "              | | | | |  |   |      |  |     |    |
 "              | | | | |  |   |      |  |     |    + current
 "              | | | | |  |   |      |  |     |       column
@@ -169,6 +190,7 @@ set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
 " when C-n and C-p is pressed, this determines in which order
 " vim will search for the string to match the key before thre cursor
+" help 'complete' to see details
 set complete=.,w,b,t
 
 " command to change the current directory
@@ -190,16 +212,16 @@ if has("gui_running")
     " colorscheme navajo-night
     set columns=100 " perfect size for me
     set lines=40 " perfect size for me
-    if has("gui_gtk2")
-    "    set guifont=Courier\ Bold\ 10
-        set guifont=DejaVu\ Sans\ Mono\ 10
-    elseif has("X11")
-        set guifont=-ibm-ergonomic-medium-r-normal-*-*-150-*-*-c-*-ibm-850 "-ibm-type-medium-r-normal-*-*-140-*-*-m-*-iso8859-1 " set gui font type and size
-    " set guifont=-ibm-times-medium-r-normal-*-*-140-*-*-m-*-ibm-pc910
-    else
-        set guifont=Consolas:h10
-    endif
-    " set guioptions=ce 
+    "if has("gui_gtk2")
+    ""    set guifont=Courier\ Bold\ 10
+        "set guifont=DejaVu\ Sans\ Mono\ 10
+    "elseif has("X11")
+        "set guifont=-ibm-ergonomic-medium-r-normal-*-*-150-*-*-c-*-ibm-850 "-ibm-type-medium-r-normal-*-*-140-*-*-m-*-iso8859-1 " set gui font type and size
+    "" set guifont=-ibm-times-medium-r-normal-*-*-140-*-*-m-*-ibm-pc910
+    "else
+        "set guifont=Consolas:h10
+    "endif
+    " set guioptions=ce
     "              ||
     "              |+-- use simple dialogs rather than pop-ups
     "              +  use GUI tabs, not console style tabs
@@ -207,7 +229,7 @@ if has("gui_running")
 
     " Font Switching Binds {
     " map <F7> <ESC>:set guifont=-ibm-times-medium-r-normal-*-*-140-*-*-m-*-ibm-pc910<CR>
-    map <F7> <ESC>:set guifont=-b&h-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-iso10646-1<CR>
+    "map <F7> <ESC>:set guifont=-b&h-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-iso10646-1<CR>
 endif " gui_running
 " }
 
@@ -232,16 +254,41 @@ execute pathogen#helptags()
 " git clone git://github.com/Lokaltog/vim-powerline.git this version will be
 " deprecated soon once powerline is ready
 " git clone https://github.com/Lokaltog/powerline.git
+" git clone https://github.com/powerline/powerline.git
 " set laststatus=2
+"let g:Powerline_symbols = 'fancy'
+"set encoding=utf-8
+"set t_Co=256
+"set fillchars+=stl:\ ,stlnc:\
+"let g:Powerline_mode_V="V·LINE"
+"let g:Powerline_mode_cv="V·BLOCK"
+"let g:Powerline_mode_S="S·LINE"
+"let g:Powerline_mode_cs="S·BLOCK"
+
+" settings from vim-airline
+"if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 9
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h9
+  elseif has("gui_win32")
+    set guifont=DejaVu_Sans_Mono_for_Powerline:h9
+  endif
+"endif
+let g:airline_powerline_fonts = 1
 
 
 " Settings for ctrlp
 " cd ~/.vim/bundle
 " git clone https://github.com/kien/ctrlp.vim.git
 let g:ctrlp_max_height = 30
-set wildignore+=*.pyc
-set wildignore+=*_build/*
-set wildignore+=*/coverage/*
+"set wildignore+=*.pyc, *.pyo, *.pyd
+"set wildignore+=*_build/*
+"set wildignore+=*/coverage/*
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|__pycache__|venv)$',
+  \ 'file': '\v\.(exe|so|dll|py[cod])$',
+  \ }
 
 " Settings for nerd tree
 " git clone https://github.com/scrooloose/nerdtree.git
@@ -250,7 +297,6 @@ map <leader>t :NERDTreeToggle<CR>
 
 " Settings for nerd commenter
 " git clone https://github.com/scrooloose/nerdcommenter.git
-filetype plugin on
 
 " Settings for UltiSnips
 " git clone https://github.com/SirVer/ultisnips.git
@@ -258,6 +304,11 @@ filetype plugin on
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Setting for snips
+let g:snips_author="Yang Yang"
+let g:snips_email="yyangbian@gmail.com"
+let g:snips_github="yyangbian"
 
 " Settings for delimitMate
 " git clone https://github.com/Raimondi/delimitMate.git
@@ -296,22 +347,40 @@ let g:syntastic_java_checkstyle_conf_file = 'C:\Users\a0273827\Documents\Program
 " Settings for jedi-vim
 " cd ~/.vim/bundle
 " git clone git://github.com/davidhalter/jedi-vim.git
+"
+" Auto initialize jedi when vim starts
+let g:jedi#auto_initialization = 1
+
 let g:jedi#usages_command = "<leader>z"
+
 " disable auto-completion when a dot is typed
 let g:jedi#popup_on_dot = 0
+
 " buffers will be used
 let g:jedi#use_tabs_not_buffers = 0
+
+" selects the first line of the completion
+let g:jedi#popup_select_first = 1
+
+" force jedi to use python 3
+let g:jedi#force_py_version = 2
+
+
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+" Start completion
+"let g:jedi#completions_command = "<c-space>"
+let g:jedi#completions_command = "<leader><space>"
+
+" Rename variables
+let g:jedi#rename_command = "<leader>r"
+
+let g:jedi#show_call_signatures = "0"
+"
 " go to will open split instead
 "let g:jedi#use_splits_not_buffers = "left"
-" selects the first line of the completion
-let g:jedi#popup_select_first = 0
-" let g:jedi#goto_assignments_command = "<leader>g"
-" let g:jedi#goto_definitions_command = "<leader>d"
-" let g:jedi#documentation_command = "K"
-" let g:jedi#completions_command = "<C-Space>"
-" let g:jedi#completions_command = "<S-Space>"
-" let g:jedi#rename_command = "<leader>r"
-" let g:jedi#show_call_signatures = "1"
+"
 map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
 
 " Better navigating through omnicomplete option list
@@ -338,10 +407,18 @@ set nofoldenable
 nnoremap <space> za
 
 
+" Rainbow parentheses
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+"Braces has conflict with perl auto indent
+"au Syntax * RainbowParenthesesLoadBraces
+
+
 " Command for eclim
 " Adds or updates the comments for the element under the cursor.
-:command JDC JavaDocComment
+":command JDC JavaDocComment
 " Import the class under the cursor.
-:command JI JavaImport
+":command JI JavaImport
 " Import undefined types, remove unused imports, sort and format imports.
-:command JIO JavaImportOrganize
+":command JIO JavaImportOrganize

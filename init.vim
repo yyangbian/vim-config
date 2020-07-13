@@ -1,4 +1,4 @@
-" Specify a directory for plugins
+ " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~\AppData\Local\nvim\plugged')
@@ -34,6 +34,8 @@ Plug 'pangloss/vim-javascript'
 
 Plug  'ternjs/tern_for_vim', { 'do': 'npm install tern' }
 "Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -90,10 +92,10 @@ set backspace=indent,eol,start " make backspace a more flexible
 " allow moving away from modified buffer
 set hidden
 
-" Rebind <Leader> key
+" Rebind <Leader> key. default is '\'
 " I like to have it here becuase it is easier to reach than the default and
 " it is next to ``m`` and ``n`` which I use for navigating between tabs.
-let mapleader = ","
+" let mapleader = ","
 
 " Bind nohl
 " Removes highlight of your last search
@@ -256,7 +258,7 @@ set nostartofline " leave my cursor where it was
 set numberwidth=5 " We are good up to 99999 lines
 set report=0 " tell us when anything is changed via :...
 set ruler " Always show current positions along the bottom
-set scrolloff=10 " Keep 10 lines (top/bottom) for scope
+set scrolloff=2 " Keep 10 lines (top/bottom) for scope
 " set shortmess=aOstT " shortens messages to avoid
 " 'press a key' prompt
 set showcmd " show the command being typed
@@ -294,6 +296,7 @@ let g:airline_theme='oceanicnext'
 " Set bin if you have many instalations
 let g:deoplete#sources#ternjs#tern_bin = 'C:\Users\a0273827\AppData\Roaming\npm\node_modules\tern\bin'
 let g:deoplete#sources#ternjs#timeout = 1
+let g:python3_host_prog = 'C:\Users\a0273827\AppData\Local\Programs\Python\Python37\python'
 
 " ==============================================================================
 " config ale
@@ -309,3 +312,8 @@ let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \}
 nmap <leader>d <Plug>(ale_fix)
+
+
+" go related settings
+autocmd Filetype go set nolist            " turn off tab display as ctrl+I
+autocmd Filetype go set listchars=trail:- " only show traling space
